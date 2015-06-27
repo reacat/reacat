@@ -1,0 +1,54 @@
+{
+  "name": "reacat",
+  "version": "0.0.0",
+  "description": "A static websites and blogs generator, based on React.",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel src --watch --out-dir lib",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "reacat": "./bin/reacat.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reacat/reacat.git"
+  },
+  "keywords": [
+    "reacat",
+    "node",
+    "react",
+    "blog",
+    "static",
+    "node-blog",
+    "node-static",
+    "react-blog",
+    "react-static",
+    "website",
+    "static-website"
+  ],
+  "author": "xcatliu <xcatliu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reacat/reacat/issues"
+  },
+  "homepage": "https://github.com/reacat/reacat",
+  "dependencies": {
+    "capitalize": "^1.0.0",
+    "chokidar": "^1.0.3",
+    "commander": "^2.8.1",
+    "ecstatic": "^0.8.0",
+    "es6-promise": "^2.3.0",
+    "fs-extra": "^0.20.1",
+    "glob": "^5.0.11",
+    "js-yaml": "^3.3.1",
+    "marked": "^0.3.3",
+    "moment": "^2.10.3",
+    "npmlog": "^1.2.1",
+    "object-assign": "^3.0.0",
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "babel": "^5.6.14"
+  }
+}
