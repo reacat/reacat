@@ -10,6 +10,7 @@ import capitalize from 'capitalize';
 import moment from 'moment';
 import React from 'react';
 import chokidar from 'chokidar';
+import uncache from './uncache';
 
 function generate(options) {
   let context = {options};
@@ -63,7 +64,10 @@ function getConfig() {
 }
 
 function getTheme() {
-  this.theme = require(path.resolve(this.cwd, this.config.themes_dir, this.config.theme));
+  const themePath = path.resolve(this.cwd, this.config.themes_dir, this.config.theme);
+  this.theme = require(themePath);
+  // node will always cache the required module, so we should uncache it and it's children modules.
+  uncache(themePath);
   log.verbose('getTheme', this.theme);
 }
 
@@ -84,6 +88,7 @@ function getMarkdownFiles() {
 function parseMarkdownFiles() {
   return Promise.all(this.markdownFiles.map((filePath, index) => {
     return new Promise((resolve, reject) => {
+      console.log(filePath);
       const fileContent = fs.readFileSync(filePath, 'utf8');
       let fileContentSplitResult = fileContent.split('---');
       let frontMatterContent = '';
