@@ -14,36 +14,51 @@ import uncache from './uncache';
 
 function generate(options) {
   let context = {options};
-  var p = new Promise(resolve => resolve())
-    .then(initLogLevel.bind(context))
-    .then(getConfig.bind(context))
-    .then(renderOnce.bind(context));
   if (options.watch) {
-    p.then(watchThemeAndSource.bind(context))
-      .then(handleWatch.bind(context));
+    new Promise(resolve => resolve())
+      .then(initLogLevel.bind(context))
+      .then(getConfig.bind(context))
+      .then(watchThemeAndSource.bind(context))
+      .then(handleWatch.bind(context))
+      .catch(handleErrorAndExitProcess.bind(context));
+  } else {
+    new Promise(resolve => resolve())
+      .then(initLogLevel.bind(context))
+      .then(getConfig.bind(context))
+      .then(renderOnce.bind(context))
+      .catch(handleErrorAndExitProcess.bind(context));
   }
-  p.catch(handleError.bind(this));
 }
 
 function handleWatch() {
   return new Promise((resolve, reject) => {
-    this.watcher.on('change', renderOnce.bind(this));
+    new Promise(resolve => resolve())
+      .then(renderOnce.bind(this))
+      .catch(handleError.bind(this));
+    this.watcher.on('change', () => {
+      new Promise(resolve => resolve())
+        .then(renderOnce.bind(this))
+        .catch(handleError.bind(this));
+    });
     this.watcher.on('error', err => reject(err));
   });
 }
 
 function renderOnce() {
-  return new Promise(resolve => resolve())
-    .then(getTheme.bind(this))
-    .then(getMarkdownFilePaths.bind(this))
-    .then(parseMarkdownFiles.bind(this))
-    .then(mergeFrontMatters.bind(this))
-    .then(renderToString.bind(this))
-    .then(clearPublicDir.bind(this))
-    .then(renderToPublicDir.bind(this))
-    // .then(getJsxs.bind(context))
-    .then(handleSuccess.bind(this))
-    .catch(handleError.bind(this));
+  return new Promise((resolve, reject) => {
+    new Promise(resolve_ => resolve_())
+      .then(getTheme.bind(this))
+      .then(getMarkdownFilePaths.bind(this))
+      .then(parseMarkdownFiles.bind(this))
+      .then(mergeFrontMatters.bind(this))
+      .then(renderToString.bind(this))
+      .then(clearPublicDir.bind(this))
+      .then(renderToPublicDir.bind(this))
+      // .then(getJsxs.bind(context))
+      .then(handleSuccess.bind(this))
+      .then(() => resolve())
+      .catch(err => reject(err));
+  });
 }
 
 function initLogLevel() {
@@ -89,7 +104,6 @@ function parseMarkdownFiles() {
   this.markdownFiles = [];
   return Promise.all(this.markdownFilePaths.map((filePath, index) => {
     return new Promise((resolve, reject) => {
-      console.log(filePath);
       const fileContent = fs.readFileSync(filePath, 'utf8');
       let fileContentSplitResult = fileContent.split('---');
       let frontMatterContent = '';
@@ -203,6 +217,10 @@ function handleError(err) {
   if (err.stack) {
     log.error('handleError', err.stack);    
   }
+}
+
+function handleErrorAndExitProcess(err) {
+  handleError.call(this, err);
   process.exit(1);
 }
 

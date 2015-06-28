@@ -1,7 +1,7 @@
 {
   "name": "reacat",
   "version": "0.0.0",
-  "description": "A static websites and blogs generator, based on React.",
+  "description": "Use React to generate your awesome static websites",
   "main": "index.js",
   "scripts": {
     "start": "babel src --watch --out-dir lib",

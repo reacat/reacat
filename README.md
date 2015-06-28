@@ -1,6 +1,6 @@
 Reacat
 ===
 
-A static websites and blogs generator, based on React.
+Use React to generate your awesome static websites
 
 Homepage: [http://reacat.com](http://reacat.com)
