@@ -13,24 +13,17 @@ program
   .command('generate')
   .description('generate your awesome website')
   .option('-w, --watch', 'watch source change')
+  .option('-s, --serve', 'serve the public dir')
   .action(function(options) {
     reacat.generate({
       watch: options.watch,
       verbose: program.verbose
     });
-  });
-
-program
-  .command('serve')
-  .description('serve the public dir')
-  .action(function() {
-    reacat.generate({
-      watch: true,
-      verbose: program.verbose
-    });
-    reacat.serve({
-      verbose: program.verbose
-    });
+    if (options.serve) {
+      reacat.serve({
+        verbose: program.verbose
+      });
+    }
   });
 
 program.parse(process.argv);

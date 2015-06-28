@@ -51,7 +51,7 @@ function renderOnce() {
       .then(getMarkdownFilePaths.bind(this))
       .then(parseMarkdownFiles.bind(this))
       .then(mergeFrontMatters.bind(this))
-      .then(renderToString.bind(this))
+      .then(renderToStaticMarkup.bind(this))
       .then(clearPublicDir.bind(this))
       .then(renderToPublicDir.bind(this))
       // .then(getJsxs.bind(context))
@@ -160,10 +160,10 @@ function mergeFrontMatters() {
   log.verbose('mergeFrontMatters', JSON.stringify(this.markdownFiles, null, 2));
 }
 
-function renderToString() {
+function renderToStaticMarkup() {
   const ThemeEntry = this.theme;
   this.markdownFiles.forEach((markdownFile) => {
-    let renderResult = React.renderToString(
+    let renderResult = React.renderToStaticMarkup(
       <ThemeEntry
         config={this.config}
         frontMatter={markdownFile.frontMatter}>
@@ -173,7 +173,7 @@ function renderToString() {
     renderResult = '<!DOCTYPE html>\n' + renderResult;
     markdownFile.renderResult = renderResult;
   });
-  log.verbose('renderToString', JSON.stringify(this.markdownFiles, null, 2));
+  log.verbose('renderToStaticMarkup', JSON.stringify(this.markdownFiles, null, 2));
 }
 
 function clearPublicDir() {
