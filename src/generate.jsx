@@ -35,7 +35,7 @@ function handleWatch() {
 function renderOnce() {
   return new Promise(resolve => resolve())
     .then(getTheme.bind(this))
-    .then(getMarkdownFiles.bind(this))
+    .then(getMarkdownFilePaths.bind(this))
     .then(parseMarkdownFiles.bind(this))
     .then(mergeFrontMatters.bind(this))
     .then(renderToString.bind(this))
@@ -72,21 +72,22 @@ function getTheme() {
 }
 
 // get all markdown files from source dir
-function getMarkdownFiles() {
+function getMarkdownFilePaths() {
   return new Promise((resolve, reject) => {
     glob('**/*.{md,markdown,MD,MARKDOWN}', {
       cwd: path.resolve(this.cwd, this.config.source_dir)
     }, (err, files) => {
       if (err) return reject(err);
-      this.markdownFiles = files.map(file => path.resolve(this.cwd, this.config.source_dir, file));
-      log.verbose('getMarkdownFiles', JSON.stringify(this.markdownFiles, null, 2));
+      this.markdownFilePaths = files.map(file => path.resolve(this.cwd, this.config.source_dir, file));
+      log.verbose('getMarkdownFilePaths', JSON.stringify(this.markdownFilePaths, null, 2));
       resolve();
     });
   });
 }
 
 function parseMarkdownFiles() {
-  return Promise.all(this.markdownFiles.map((filePath, index) => {
+  this.markdownFiles = [];
+  return Promise.all(this.markdownFilePaths.map((filePath, index) => {
     return new Promise((resolve, reject) => {
       console.log(filePath);
       const fileContent = fs.readFileSync(filePath, 'utf8');
