@@ -1,6 +1,6 @@
 {
   "name": "reacat",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Use React to generate your awesome static websites",
   "main": "index.js",
   "scripts": {
