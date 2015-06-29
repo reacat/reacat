@@ -1,4 +1,5 @@
 export default {
+  title: "Reacat",
   author: "xcatliu",
   theme_dir: "node_modules",
   plugin_dir: "node_modules",

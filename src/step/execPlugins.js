@@ -1,7 +1,9 @@
 import {Promise} from 'es6-promise';
 
 function execPlugins() {
-  return Promise.all(this.plugins.map(plugin => plugin.call(this)));
+  const p = new Promise(resolve => resolve());
+  this.plugins.forEach(plugin => p.then(plugin.bind(this)));
+  return p;
 }
 
 export default execPlugins;
