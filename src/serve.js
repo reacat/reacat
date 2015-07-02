@@ -1,17 +1,15 @@
-import initLogLevel from './step/initLogLevel';
-import getConfig from './step/getConfig';
-import servePublic from './step/servePublic';
-import handleServeSuccess from './step/handleServeSuccess';
-import handleErrorAndExitProcess from './step/handleErrorAndExitProcess';
+var step = require('./step');
 
 function serve(options) {
-  const context = {options};
-  new Promise(resolve => resolve())
-    .then(initLogLevel.bind(context))
-    .then(getConfig.bind(context))
-    .then(servePublic.bind(context))
-    .then(handleServeSuccess.bind(context))
-    .catch(handleErrorAndExitProcess.bind(context));
+  var context = {
+    options: options
+  };
+  Promise.resolve()
+    .then(step.initLogLevel.bind(context))
+    .then(step.getConfig.bind(context))
+    .then(step.servePublic.bind(context))
+    .then(step.handleServeSuccess.bind(context))
+    .catch(step.handleErrorAndExitProcess.bind(context));
 }
 
-export default serve;
+module.exports = serve;

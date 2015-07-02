@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   title: "Reacat",
   author: "xcatliu",
   theme_dir: "node_modules",
@@ -12,4 +12,4 @@ export default {
   plugins: [
     "reacat-plugin-markdown"
   ]
-}
+};

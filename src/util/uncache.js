@@ -6,13 +6,13 @@
 function uncache(moduleName) {
   // Run over the cache looking for the files
   // loaded by the specified module name
-  searchCache(moduleName, (mod) => {
+  searchCache(moduleName, function(mod) {
     delete require.cache[mod.id];
   });
 
   // Remove cached paths to the module.
   // Thanks to @bentael for pointing this out.
-  Object.keys(module.constructor._pathCache).forEach((cacheKey) => {
+  Object.keys(module.constructor._pathCache).forEach(function(cacheKey) {
     if (cacheKey.indexOf(moduleName) > 0) {
       delete module.constructor._pathCache[cacheKey];
     }
@@ -34,7 +34,9 @@ function searchCache(moduleName, callback) {
     (function run(mod) {
       // Go over each of the module's children and
       // run over it
-      mod.children.forEach(child => run(child));
+      mod.children.forEach(function(child) {
+        run(child);
+      });
 
       // Call the specified callback providing the
       // found module
@@ -43,4 +45,4 @@ function searchCache(moduleName, callback) {
   }
 };
 
-export default uncache;
+module.exports = uncache;

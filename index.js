@@ -1,4 +1,4 @@
 module.exports = {
-  generate: require('./lib/generate'),
+  build: require('./lib/build'),
   serve: require('./lib/serve')
 };
