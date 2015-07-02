@@ -11,5 +11,5 @@ module.exports = {
   dev_port: 8000,
   plugins: [
     "reacat-plugin-markdown"
-  ]
+  ],
 };

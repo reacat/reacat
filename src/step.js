@@ -53,19 +53,23 @@ function handleWatch() {
 
 function renderOnce() {
   return new Promise((resolve, reject) => {
-    Promise.resolve()
-      .then(timerStart.bind(this))
-      .then(getTheme.bind(this))
-      .then(getSources.bind(this))
-      .then(getPlugins.bind(this))
-      .then(execPlugins.bind(this))
-      .then(renderToStaticMarkup.bind(this))
-      .then(clearPublicDir.bind(this))
-      .then(writeToPublicDir.bind(this))
-      .then(timerStop.bind(this))
-      .then(handleRenderOnceSuccess.bind(this))
-      .then(() => resolve())
-      .catch(err => reject(err));
+    if (this.options.tiny) {
+      Promise.resolve()
+        .then(timerStart.bind(this))
+        .then(getTheme.bind(this))
+        .then(getSources.bind(this))
+        .then(getPlugins.bind(this))
+        .then(execPlugins.bind(this))
+        .then(renderToStaticMarkup.bind(this))
+        .then(clearPublicDir.bind(this))
+        .then(writeToPublicDir.bind(this))
+        .then(timerStop.bind(this))
+        .then(handleRenderOnceSuccess.bind(this))
+        .then(() => resolve())
+        .catch(err => reject(err));
+      return;
+    }
+    reject(new Error('Sorry, normal mode is not ready, please use --tiny option'));
   });
 }
 
@@ -81,7 +85,7 @@ function servePublic() {
 }
 
 function handleServeSuccess() {
-  this.log.info('handleServeSuccess', 'serve dir ' + this.config.public_dir + ' success');
+  this.log.info('handleServeSuccess', 'serve ' + this.config.public_dir + ' success');
   this.log.info('handleServeSuccess', 'http://localhost:' + this.config.dev_port);
 }
 
@@ -137,11 +141,14 @@ function renderToStaticMarkup() {
     var source = this.sources[filePath];
     if (!source.page) return;
     var Content = source.page.Content;
+    var props = {
+      config: this.config,
+      page: source.page
+    }
+    // http://facebook.github.io/react/docs/top-level-api.html#react.rendertostaticmarkup
     var renderContent = React.renderToStaticMarkup(
-      <ThemeEntry
-        config={this.config}
-        page={source.page}>
-        <Content/>
+      <ThemeEntry {...props}>
+        <Content {...props}/>
       </ThemeEntry>
     );
     renderContent = '<!DOCTYPE html>\n' + renderContent;
