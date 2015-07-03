@@ -1,7 +1,7 @@
 Reacat [![Build Status](https://travis-ci.org/reacat/reacat.svg?branch=master)](https://travis-ci.org/reacat/reacat)
 ===
 
-Use React to generate your awesome static website.
+> Use React to generate your awesome static website.
 
 Homepage: [http://reacat.com](http://reacat.com)
 
@@ -9,11 +9,11 @@ Homepage: [http://reacat.com](http://reacat.com)
 
 ### Static website generator
 
-Reacat came about from our love of React and was inspired by [Jekyll](http://jekyllrb.com/) & [Hexo](https://hexo.io/).
+Reacat came about from our love of [React](http://facebook.github.io/react/) and was inspired by [Jekyll](http://jekyllrb.com/) & [Hexo](https://hexo.io/).
 
 - [x] Render html and markdown file as pages
-- [x] Render React components as pages, support es6 format!
-- [x] Be able to only render static markup
+- [x] Render ***React components*** as pages, ***support es6 format***!
+- [x] Be able to only [render static markup](http://facebook.github.io/react/docs/top-level-api.html#react.rendertostaticmarkup)
 
 ### Plugins and Themes
 
@@ -28,7 +28,7 @@ Reacat has a powerful plugin system, as well as theme system. The most amazing t
 If you have a backend which only gives Ajax API, such as a BAAS platform, Reacat is ready to build application pleasantly.
 
 - [ ] Automatic inserting bundled js into pages
-- [ ] Use react-router to generate a single page app
+- [ ] Use [react-router](https://github.com/rackt/react-router) to generate a single page app
 - [ ] Uglify bundled js to adapt production environment
 
 ## Usage
@@ -50,9 +50,9 @@ $ npm start
 
 ### Create a new page
 
-Add a `.html` or `.md` file in source dir with front matter in the head to create a new page.
+Add a `.html` or `.md` file to source dir with front matter in the head to create a new page.
 
-Add a `.jsx` file in source dir which export a class `YourPageComponent` extended from React.Component will also create a new page. In this case, you can define a static constant `frontMatter` in `YourPageComponent`.
+Add a `.jsx` file to source dir which export a class `YourPageComponent` extended from `React.Component` will also create a new page. In this case, you can define a static constant `frontMatter` in `YourPageComponent`.
 
 ### Configuration
 
