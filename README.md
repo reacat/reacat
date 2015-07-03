@@ -9,7 +9,7 @@ Reacat [![Build Status](https://travis-ci.org/reacat/reacat.svg?branch=master)](
 
 **WARNING: This project is underdevelopment, not ready for production.**
 
-Let's [contribute](#Contributing) together!
+Let's [contribute](#contributing) together!
 
 ## Features
 
