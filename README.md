@@ -3,7 +3,7 @@ Reacat [![Build Status](https://travis-ci.org/reacat/reacat.svg?branch=master)](
 
 > Use React to generate your awesome static website.
 
-<del>Homepage: [http://reacat.com](http://reacat.com)</del>( Underdevelopment )
+<del>Homepage: [http://reacat.com](http://reacat.com)</del> ( Underdevelopment )
 
 ## Project status
 
