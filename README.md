@@ -3,7 +3,13 @@ Reacat [![Build Status](https://travis-ci.org/reacat/reacat.svg?branch=master)](
 
 > Use React to generate your awesome static website.
 
-Homepage: [http://reacat.com](http://reacat.com)
+---Homepage: [http://reacat.com](http://reacat.com)---
+
+## Project status
+
+Underdevelopment, not ready for production.
+
+Let's [contribute](#Contributing) together!
 
 ## Features
 
@@ -61,6 +67,15 @@ Edit `config.json` to configure your project.
 ### Custom your theme
 
 ### Create a new plugin
+
+## Contributing
+
+### Programming style
+
+- Use full es6 features
+- Use babel to compiler es6 to es5 for production
+- Follow [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
+- Use eslint to lint js files
 
 ## License
 
