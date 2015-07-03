@@ -3,6 +3,8 @@ Reacat [![Build Status](https://travis-ci.org/reacat/reacat.svg?branch=master)](
 
 > Use React to generate your awesome static website.
 
+Reacat means [React](http://facebook.github.io/react/) + [Xcat](https://github.com/xcatliu)
+
 <del>Homepage: [http://reacat.com](http://reacat.com)</del> ( Underdevelopment )
 
 ## Project status
