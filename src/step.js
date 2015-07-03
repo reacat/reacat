@@ -1,16 +1,18 @@
-var log = require('npmlog');
-var fs = require('fs-extra');
-var path = require('path');
-var yaml = require('js-yaml');
-var objectAssign = require('object-assign');
-var defaultConfig = require('./defaultConfig');
-var chokidar = require('chokidar');
-var Promise = require('es6-promise').Promise;
-var http = require('http');
-var ecstatic = require('ecstatic');
-var uncache = require('./util/uncache');
-var glob = require('glob');
-var React = require('react');
+/* eslint no-use-before-define:0, block-scoped-var:0 */
+
+import log from 'npmlog';
+import fs from 'fs-extra';
+import path from 'path';
+import yaml from 'js-yaml';
+import objectAssign from 'object-assign';
+import defaultConfig from './defaultConfig';
+import chokidar from 'chokidar';
+import { Promise } from 'es6-promise';
+import http from 'http';
+import ecstatic from 'ecstatic';
+import uncache from 'require-uncache';
+import glob from 'glob';
+import React from 'react';
 
 function initLogLevel() {
   if (this.options.verbose) log.level = 'verbose';
@@ -75,7 +77,7 @@ function renderOnce() {
 
 function handleErrorAndExitProcess(err) {
   handleError.call(this, err);
-  process.exit(1);
+  throw err;
 }
 
 function servePublic() {
@@ -95,7 +97,7 @@ function timerStart() {
 }
 
 function getTheme() {
-  var themePath = path.resolve(this.cwd, this.config.theme_dir, this.config.theme);
+  const themePath = path.resolve(this.cwd, this.config.theme_dir, this.config.theme);
   this.theme = require(themePath);
   // node will always cache the required module, so we should uncache it and it's children modules.
   uncache(themePath);
@@ -103,7 +105,7 @@ function getTheme() {
 }
 
 function getSources() {
-  var filePaths = glob.sync('**', {
+  const filePaths = glob.sync('**', {
     cwd: path.resolve(this.cwd, this.config.source_dir),
     nodir: true
   });
@@ -121,11 +123,11 @@ function getSources() {
 
 function getPlugins() {
   this.plugins = this.config.plugins.map((pluginName) => {
-    var pluginPath = path.resolve(this.cwd, this.config.plugin_dir, pluginName);
-    var plugin = require(pluginPath);
+    const pluginPath = path.resolve(this.cwd, this.config.plugin_dir, pluginName);
+    const plugin = require(pluginPath);
     uncache(pluginPath);
     return plugin;
-  })
+  });
   this.log.verbose('getPlugins', this.plugins);
 }
 
@@ -136,17 +138,17 @@ function execPlugins() {
 }
 
 function renderToStaticMarkup() {
-  var ThemeEntry = this.theme;
+  const ThemeEntry = this.theme;
   Object.keys(this.sources).forEach((filePath) => {
-    var source = this.sources[filePath];
+    const source = this.sources[filePath];
     if (!source.page) return;
-    var Content = source.page.Content;
-    var props = {
+    const Content = source.page.Content;
+    const props = {
       config: this.config,
       page: source.page
-    }
+    };
     // http://facebook.github.io/react/docs/top-level-api.html#react.rendertostaticmarkup
-    var renderContent = React.renderToStaticMarkup(
+    let renderContent = React.renderToStaticMarkup(
       <ThemeEntry {...props}>
         <Content {...props}/>
       </ThemeEntry>
@@ -158,18 +160,18 @@ function renderToStaticMarkup() {
 }
 
 function clearPublicDir() {
-  var publicDir = path.resolve(this.cwd, this.config.public_dir);
+  const publicDir = path.resolve(this.cwd, this.config.public_dir);
   fs.removeSync(publicDir);
   this.log.verbose('clearPublicDir', publicDir);
 }
 
 function writeToPublicDir() {
-  var publicDir = path.resolve(this.cwd, this.config.public_dir);
-  var count = 0;
+  const publicDir = path.resolve(this.cwd, this.config.public_dir);
+  let count = 0;
   Object.keys(this.sources).forEach((filePath) => {
-    var source = this.sources[filePath];
+    const source = this.sources[filePath];
     if (!source.page) return;
-    var writePath = path.resolve(publicDir, source.page.url.replace(/^\//, ''));
+    const writePath = path.resolve(publicDir, source.page.url.replace(/^\//, ''));
     fs.mkdirsSync(path.dirname(writePath));
     fs.writeFileSync(writePath, source.renderContent, {
       encoding: 'utf8'
@@ -193,28 +195,28 @@ function handleRenderOnceSuccess() {
 function handleError(err) {
   this.log.error('handleError', err.message);
   if (err.stack) {
-    this.log.error('handleError', err.stack);    
+    this.log.error('handleError', err.stack);
   }
 }
 
-module.exports = {
-  initLogLevel: initLogLevel,
-  getConfig: getConfig,
-  watchThemePluginAndSource: watchThemePluginAndSource,
-  handleWatch: handleWatch,
-  renderOnce: renderOnce,
-  handleErrorAndExitProcess: handleErrorAndExitProcess,
-  servePublic: servePublic,
-  handleServeSuccess: handleServeSuccess,
-  timerStart: timerStart,
-  getTheme: getTheme,
-  getSources: getSources,
-  getPlugins: getPlugins,
-  execPlugins: execPlugins,
-  renderToStaticMarkup: renderToStaticMarkup,
-  clearPublicDir: clearPublicDir,
-  writeToPublicDir: writeToPublicDir,
-  timerStop: timerStop,
-  handleRenderOnceSuccess: handleRenderOnceSuccess,
-  handleError: handleError
+export default {
+  initLogLevel,
+  getConfig,
+  watchThemePluginAndSource,
+  handleWatch,
+  renderOnce,
+  handleErrorAndExitProcess,
+  servePublic,
+  handleServeSuccess,
+  timerStart,
+  getTheme,
+  getSources,
+  getPlugins,
+  execPlugins,
+  renderToStaticMarkup,
+  clearPublicDir,
+  writeToPublicDir,
+  timerStop,
+  handleRenderOnceSuccess,
+  handleError
 };

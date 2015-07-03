@@ -1,9 +1,9 @@
-var Promise = require('es6-promise').Promise;
-var step = require('./step');
+import { Promise } from 'es6-promise';
+import step from './step';
 
 function build(options) {
-  var context = {
-    options: options
+  const context = {
+    options
   };
   if (options.watch) {
     Promise.resolve()
@@ -21,4 +21,4 @@ function build(options) {
   }
 }
 
-module.exports = build;
+export default build;

@@ -1,8 +1,8 @@
-var step = require('./step');
+import step from './step';
 
 function serve(options) {
-  var context = {
-    options: options
+  const context = {
+    options
   };
   Promise.resolve()
     .then(step.initLogLevel.bind(context))
@@ -12,4 +12,4 @@ function serve(options) {
     .catch(step.handleErrorAndExitProcess.bind(context));
 }
 
-module.exports = serve;
+export default serve;
