@@ -44,10 +44,16 @@ function handleWatch() {
     Promise.resolve()
       .then(renderOnce.bind(this))
       .catch(handleError.bind(this));
+    let timeout;
     this.watcher.on('change', () => {
-      Promise.resolve()
-        .then(renderOnce.bind(this))
-        .catch(handleError.bind(this));
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => {
+        Promise.resolve()
+          .then(renderOnce.bind(this))
+          .catch(handleError.bind(this));
+      }, 1000);
     });
     this.watcher.on('error', err => reject(err));
   });
@@ -192,8 +198,7 @@ function timerStop() {
 }
 
 function handleRenderOnceSuccess() {
-  this.log.info('handleRenderOnceSuccess', 'rendered ' + this.timer.count + ' files in ' + this.timer.duration + ' seconds');
-  this.log.info('handleRenderOnceSuccess', 'generate success');
+  this.log.info('handleRenderOnceSuccess', 'generated ' + this.timer.count + ' files in ' + this.timer.duration + ' seconds');
 }
 
 function handleError(err) {
