@@ -170,12 +170,16 @@ function writeToPublicDir() {
   let count = 0;
   Object.keys(this.sources).forEach((filePath) => {
     const source = this.sources[filePath];
-    if (!source.page) return;
-    const writePath = path.resolve(publicDir, source.page.url.replace(/^\//, ''));
-    fs.mkdirsSync(path.dirname(writePath));
-    fs.writeFileSync(writePath, source.renderContent, {
-      encoding: 'utf8'
-    });
+    if (source.page) {
+      const writePath = path.resolve(publicDir, source.page.url.replace(/^\//, ''));
+      fs.mkdirsSync(path.dirname(writePath));
+      fs.writeFileSync(writePath, source.renderContent, {
+        encoding: 'utf8'
+      });
+    } else {
+      const writePath = path.resolve(publicDir, path.relative(this.config.source_dir, filePath));
+      fs.copySync(filePath, writePath);
+    }
     count += 1;
   });
   this.timer.count = count;
